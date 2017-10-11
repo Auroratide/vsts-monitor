@@ -1,0 +1,14 @@
+@import 'theme';
+
+.stage {
+  flex: 1 0 0;
+  margin: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  color: #FFF;
+
+  &.status-success {
+    @include color-success(background-color);
+  }
+}

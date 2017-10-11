@@ -6,7 +6,14 @@ router.get('/', (req, res) => {
   console.log('** Hit API GET /pipelines');
   return res.status(200).json({
     name: 'Master Sword',
-    status: 'success'
+    status: 'success',
+    stages: [ {
+      name: 'Unit Tests',
+      status: 'success'
+    }, {
+      name: 'Dao Tests',
+      status: 'success'
+    } ]
   });
 });
 

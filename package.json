@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all build start-app",
+    "start:watch": "npm-run-all build start-app:watch",
     "start-app": "node dist/server.js",
+    "start-app:watch": "npm-run-all --parallel build:watch start-app",
     "build": "mkdir -p dist/views && cp -a src/server/views/. dist/views && webpack",
+    "build:watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Timothy Foster",
