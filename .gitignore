@@ -1,2 +1,3 @@
 node_modules/
+dist/
 setup_env.sh
