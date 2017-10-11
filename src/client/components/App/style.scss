@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
-body {
+html {
+  @include color-background(background);
   @include typography-size-base;
+}
+
+body {
+  @include typography-font-content;
 }

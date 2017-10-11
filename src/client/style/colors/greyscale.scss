@@ -1,7 +1,9 @@
 @import 'helpers';
 
 $greyscale: (
-  400: #A0A0A0
+  400: #A0A0A0,
+  800: #303030,
+  900: #000000
 );
 
 @function greyscale($weight) {

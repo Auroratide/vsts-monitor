@@ -3,6 +3,10 @@
 @import 'colors/progress-yellow';
 @import 'colors/greyscale';
 
+@mixin color-background($prop) {
+  #{$prop}: greyscale(800);
+}
+
 @mixin color-success($prop) {
   #{$prop}: success-green(400);
 }

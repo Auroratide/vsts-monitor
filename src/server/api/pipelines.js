@@ -18,11 +18,11 @@ const router = Router();
   } ]
 }
  */
-router.get('/', (req, res) => {
+router.get('/:id', (req, res) => {
   console.log('** Hit API GET /pipelines');
 
   const response = {};
-  return vsts.getMostRecentBuild('1645')
+  return vsts.getMostRecentBuild(req.params.id)
     .then(data => {
       response.name = data.value[0].definition.name;
       response.status = data.value[0].result === 'succeeded' ? 'success' : 'failure';

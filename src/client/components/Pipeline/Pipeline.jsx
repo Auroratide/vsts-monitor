@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import pipelines from '../../api/pipelines';
 import Stage from '../Stage';
 import { classes } from '../../utils/helpers';
@@ -11,14 +12,16 @@ export default class Pipeline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
       status: 'unknown',
       stages: []
     };
   }
 
   refreshPipelineProgress() {
-    pipelines.getAll().then(data => {
+    pipelines.get(this.props.definitionId).then(data => {
       this.setState({
+        name: data.name,
         status: data.status,
         stages: data.stages
       });
@@ -46,7 +49,12 @@ export default class Pipeline extends React.Component {
 
   render() {
     return <div className={classes('pipeline', `status-${this.state.status}`)}>
+      <h1>{this.state.name}</h1>
       {this._renderStages(this.state.stages)}
     </div>;
   }
 }
+
+Pipeline.propTypes = {
+  definitionId: PropTypes.string
+};

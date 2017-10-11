@@ -3,8 +3,13 @@
 .pipeline {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 2rem;
 
-  &.status-success {
-    @include color-success(color);
+  h1 {
+    color: #FFF;
+    flex: 0 0 100%;
+    margin: 0 0 1rem 0;
+    font-size: 3rem;
+    text-align: center;
   }
 }
