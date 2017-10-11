@@ -4,6 +4,9 @@
   "description": "Spike",
   "main": "index.js",
   "scripts": {
+    "start": "npm-run-all build start-app",
+    "start-app": "node dist/server.js",
+    "build": "mkdir -p dist/views && cp -a src/server/views/. dist/views && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Timothy Foster",
@@ -18,6 +21,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
