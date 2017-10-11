@@ -2,6 +2,7 @@
 
 .pipeline {
   display: flex;
+  flex-wrap: wrap;
 
   &.status-success {
     @include color-success(color);

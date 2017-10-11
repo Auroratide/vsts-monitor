@@ -1,5 +1,10 @@
 @import 'colors/success-green';
+@import 'colors/failure-red';
 
 @mixin color-success($prop) {
   #{$prop}: success-green(400);
+}
+
+@mixin color-failure($prop) {
+  #{$prop}: failure-red(400);
 }

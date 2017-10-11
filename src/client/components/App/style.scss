@@ -1,0 +1,9 @@
+@import 'theme';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  @include typography-size-base;
+}

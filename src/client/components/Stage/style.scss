@@ -1,7 +1,8 @@
 @import 'theme';
 
 .stage {
-  flex: 1 0 0;
+  flex: 1 0 16%;
+  height: 2rem;
   margin: 4px;
   padding: 4px 8px;
   border-radius: 4px;
@@ -10,5 +11,9 @@
 
   &.status-success {
     @include color-success(background-color);
+  }
+
+  &.status-failure {
+    @include color-failure(background-color);
   }
 }

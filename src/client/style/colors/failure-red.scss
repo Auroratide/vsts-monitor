@@ -1,0 +1,9 @@
+@import 'helpers';
+
+$failure-red: (
+  400: #D00000
+);
+
+@function failure-red($weight) {
+  @return get-color($failure-red, $weight);
+}
