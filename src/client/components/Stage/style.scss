@@ -1,13 +1,14 @@
 @import 'theme';
 
 .stage {
-  flex: 1 0 16%;
-  height: 2rem;
+  flex: 1 0 20%;
+  height: 6rem;
   margin: 4px;
   padding: 4px 8px;
   border-radius: 4px;
   text-align: center;
   color: #FFF;
+  font-size: 2rem;
 
   &.status-success {
     @include color-success(background-color);

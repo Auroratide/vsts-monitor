@@ -1,15 +1,16 @@
 import { Router } from 'express';
 import vsts from '../service/vsts';
+import { statusFor } from '../transformers/pipelines';
 
 const router = Router();
 
 /** Response Body
 {
   name: <string>,
-  status: <string:'success', 'failure', 'pending', 'cancelled', 'unknown'>,
+  status: <string:'success', 'failure', 'progress', 'pending', 'cancelled', 'unknown'>,
   stages: [ {
     name: <string>,
-    status: <string:'success', 'failure', 'pending', 'cancelled', 'unknown'>
+    status: <string:'success', 'failure', 'progress', 'pending', 'cancelled', 'unknown'>
   } ]
 }
  */
@@ -25,7 +26,7 @@ router.get('/', (req, res) => {
     response.stages = data.records.map(record => {
       return {
         name: record.name,
-        status: record.result === 'succeeded' ? 'success' : 'failure'
+        status: statusFor(record)
       };
     });
   }).then(() => {
