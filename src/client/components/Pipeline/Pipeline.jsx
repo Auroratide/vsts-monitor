@@ -5,6 +5,8 @@ import { classes } from '../../utils/helpers';
 
 import './style';
 
+const REFRESH_RATE = 5000;
+
 export default class Pipeline extends React.Component {
   constructor(props) {
     super(props);
@@ -14,13 +16,24 @@ export default class Pipeline extends React.Component {
     };
   }
 
-  componentDidMount() {
+  refreshPipelineProgress() {
     pipelines.getAll().then(data => {
       this.setState({
         status: data.status,
         stages: data.stages
       });
     });
+  }
+
+  runRefreshTimer() {
+    this.refreshPipelineProgress();
+    setTimeout(() => {
+      this.runRefreshTimer();
+    }, REFRESH_RATE);
+  }
+
+  componentDidMount() {
+    this.runRefreshTimer();
   }
 
   _renderStages(stages) {
