@@ -1,0 +1,9 @@
+@import 'helpers';
+
+$progress-yellow: (
+  400: #A0A000
+);
+
+@function progress-yellow($weight) {
+  @return get-color($progress-yellow, $weight);
+}

@@ -1,5 +1,7 @@
 @import 'colors/success-green';
 @import 'colors/failure-red';
+@import 'colors/progress-yellow';
+@import 'colors/greyscale';
 
 @mixin color-success($prop) {
   #{$prop}: success-green(400);
@@ -7,4 +9,12 @@
 
 @mixin color-failure($prop) {
   #{$prop}: failure-red(400);
+}
+
+@mixin color-progress($prop) {
+  #{$prop}: progress-yellow(400);
+}
+
+@mixin color-pending($prop) {
+  #{$prop}: greyscale(400);
 }

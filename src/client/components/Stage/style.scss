@@ -17,4 +17,12 @@
   &.status-failure {
     @include color-failure(background-color);
   }
+
+  &.status-progress {
+    @include color-progress(background-color);
+  }
+
+  &.status-pending {
+    @include color-pending(background-color);
+  }
 }

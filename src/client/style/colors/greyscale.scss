@@ -1,0 +1,9 @@
+@import 'helpers';
+
+$greyscale: (
+  400: #A0A0A0
+);
+
+@function greyscale($weight) {
+  @return get-color($greyscale, $weight);
+}
