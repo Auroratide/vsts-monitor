@@ -1,5 +1,6 @@
 import React from 'react';
+import Pipeline from '../Pipeline';
 
-const App = () => <div>Hello world!</div>;
+const App = () => <Pipeline />;
 
 export default App;
