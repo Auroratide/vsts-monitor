@@ -2,6 +2,8 @@ import React from 'react';
 import pipelines from '../../api/pipelines';
 import { classes } from '../../utils/helpers';
 
+import './style';
+
 export default class Pipeline extends React.Component {
   constructor(props) {
     super(props);
