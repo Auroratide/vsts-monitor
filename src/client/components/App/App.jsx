@@ -1,11 +1,12 @@
 import React from 'react';
 import Pipeline from '../Pipeline';
+import Login from '../Login';
 
 import './style';
 
-const App = () => <div>
+const App = () => <Login>
   <Pipeline definitionId='1645' />
   <Pipeline definitionId='1648' />
-</div>;
+</Login>;
 
 export default App;
