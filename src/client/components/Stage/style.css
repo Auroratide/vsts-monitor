@@ -1,0 +1,26 @@
+.stage {
+  flex: 1 0 20%;
+  min-height: 6rem;
+  margin: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  color: #FFF;
+  font-size: 2rem;
+}
+
+.stage.status-success {
+  background-color: #00A000;
+}
+
+.stage.status-failure {
+  background-color: #D00000;
+}
+
+.stage.status-progress {
+  background-color: #A0A000;
+}
+
+.stage.status-pending {
+  background-color: #A0A0A0;
+}

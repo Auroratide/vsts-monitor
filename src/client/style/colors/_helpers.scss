@@ -1,7 +1,0 @@
-@function get-color($color-map, $weight) {
-  @if map-has-key($color-map, $weight) {
-    @return map-get($color-map, $weight);
-  } @else {
-    @return null;
-  }
-}

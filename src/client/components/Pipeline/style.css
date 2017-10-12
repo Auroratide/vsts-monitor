@@ -1,0 +1,19 @@
+.pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.pipeline h1 {
+  color: #FFF;
+  flex: 0 0 100%;
+  margin: 0 0 1rem 0;
+  font-size: 3rem;
+  text-align: center;
+  border-radius: 4px;
+  padding: 0.5rem 0;
+}
+
+.pipeline.status-failure h1 {
+  background-color: #D00000;
+}

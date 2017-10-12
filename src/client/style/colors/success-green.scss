@@ -1,9 +1,0 @@
-@import 'helpers';
-
-$success-green: (
-  400: #00A000
-);
-
-@function success-green($weight) {
-  @return get-color($success-green, $weight);
-}

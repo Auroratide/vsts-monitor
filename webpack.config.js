@@ -29,20 +29,15 @@ module.exports = [ {
     path: path.join(__dirname, 'dist')
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css', '.scss']
+    extensions: ['.js', '.jsx', '.css']
   },
   module: {
     loaders: [ {
-      test: /\.s?css$/,
+      test: /\.css$/,
       loaders: ExtractTextPlugin.extract( {
         fallback: 'style-loader',
         use: [ {
           loader: 'css-loader'
-        }, {
-          loader: 'sass-loader',
-          options: {
-            includePaths: [path.resolve(__dirname, 'src', 'client', 'style')]
-          }
         } ]
       } )
     }, {
