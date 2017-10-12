@@ -2,6 +2,7 @@ import { Router } from 'express';
 import vsts from '../service/vsts';
 import {
   statusFor,
+  buildStatus,
   sortByOrder,
   keepOnlyTasks
 } from '../transformers/pipelines';
@@ -11,7 +12,7 @@ const router = Router();
 /** Response Body
 {
   name: <string>,
-  status: <string:'success', 'failure', 'progress', 'pending', 'cancelled', 'unknown'>,
+  status: <string:'success', 'failure', 'unknown'>,
   stages: [ {
     name: <string>,
     status: <string:'success', 'failure', 'progress', 'pending', 'cancelled', 'unknown'>
@@ -24,9 +25,20 @@ router.get('/:id', (req, res) => {
   const response = {};
   return vsts.getMostRecentBuild(req.params.id)
     .then(data => {
-      response.name = data.value[0].definition.name;
-      response.status = data.value[0].result === 'succeeded' ? 'success' : 'failure';
-      return vsts.getBuildTimeline(data.value[0].id);
+      const build = data.value[0];
+      response.name = build.definition.name;
+
+      if(build.status !== 'completed') {
+        return vsts.getMostRecentCompletedBuild(req.params.id).then(d => {
+          response.status = buildStatus(d.value[0]);
+          return vsts.getBuildTimeline(build.id);
+        }).catch(() => {
+          response.status = 'failure';
+        });;
+      } else {
+        response.status = buildStatus(build);
+        return vsts.getBuildTimeline(build.id);
+      }
     })
     .then(data => data.records)
     .then(keepOnlyTasks)

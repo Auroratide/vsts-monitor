@@ -6,11 +6,23 @@ export const statusFor = (record) => {
   } else if(record.state === 'completed') {
     if(record.result === 'succeeded') {
       return 'success';
-    } else {
+    } else if(record.result === 'failed') {
       return 'failure';
+    } else if(record.result === 'skipped') {
+      return 'pending';
+    } else {
+      return 'unknown';
     }
   } else {
     return 'unknown';
+  }
+};
+
+export const buildStatus = (build) => {
+  if(build.result === 'succeeded') {
+    return 'success';
+  } else {
+    return 'failure';
   }
 };
 
