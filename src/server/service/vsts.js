@@ -1,12 +1,16 @@
 import http from './http';
 import { getAuthorization } from './login';
 
-const request = http.create({
+const builds = http.create({
   baseURL: 'https://mrcooper.visualstudio.com'
 });
 
+const releases = http.create({
+  baseURL: 'https://mrcooper.vsrm.visualstudio.com/'
+});
+
 const getMostRecentBuild = (id) => {
-  return request.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
+  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
     params: {
       definitions: id,
       '$top': 1
@@ -18,7 +22,7 @@ const getMostRecentBuild = (id) => {
 };
 
 const getMostRecentCompletedBuild = (id) => {
-  return request.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
+  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
     params: {
       definitions: id,
       statusFilter: 'completed',
@@ -31,7 +35,21 @@ const getMostRecentCompletedBuild = (id) => {
 };
 
 const getBuildTimeline = (id) => {
-  return request.get(`/${process.env.PROJECT_ID}/_apis/build/builds/${id}/timeline`, {
+  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds/${id}/timeline`, {
+    headers: {
+      Authorization: `Basic ${getAuthorization()}`
+    }
+  }).then(res => res.data);
+};
+
+const getMostRecentReleases = () => {
+  return releases.get(`/${process.env.PROJECT_ID}/_apis/release/releases`, {
+    params: {
+      'api-version': '4.0-preview.4',
+      'definitionId': '4',
+      '$top': 25,
+      '$expand': 'environments'
+    },
     headers: {
       Authorization: `Basic ${getAuthorization()}`
     }
@@ -41,5 +59,6 @@ const getBuildTimeline = (id) => {
 export default {
   getMostRecentBuild,
   getMostRecentCompletedBuild,
-  getBuildTimeline
+  getBuildTimeline,
+  getMostRecentReleases
 };

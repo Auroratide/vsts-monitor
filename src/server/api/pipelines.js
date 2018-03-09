@@ -4,7 +4,11 @@ import {
   statusFor,
   buildStatus,
   sortByOrder,
-  keepOnlyTasks
+  keepOnlyTasks,
+  organizeIntoEnvironmentBuckets,
+  findFirstNotInProgress,
+  orderByRank,
+  statusForRelease
 } from '../transformers/pipelines';
 
 const router = Router();
@@ -34,7 +38,7 @@ router.get('/:id', (req, res) => {
           return vsts.getBuildTimeline(build.id);
         }).catch(() => {
           response.status = 'failure';
-        });;
+        });
       } else {
         response.status = buildStatus(build);
         return vsts.getBuildTimeline(build.id);
@@ -50,6 +54,21 @@ router.get('/:id', (req, res) => {
           status: statusFor(record)
         };
       });
+    })
+
+    .then(() => vsts.getMostRecentReleases().then(d => d.value))
+    .then(organizeIntoEnvironmentBuckets)
+    .then(buckets => {
+      return Object.keys(buckets).map(env => findFirstNotInProgress(buckets[env]));
+    })
+    .then(orderByRank)
+    .then(envs => {
+      response.stages = response.stages.concat(envs.map(env => {
+        return {
+          name: env.name,
+          status: statusForRelease(env)
+        };
+      }));
     })
     .then(() => {
       return res.status(200).json(response);
