@@ -34,6 +34,14 @@ export const keepOnlyTasks = (records) => {
   return records.filter(record => record.type === 'Task');
 };
 
+export const getReleaseDefinitionWithBuildId = (definitions, buildId) => {
+  return definitions.find(definition =>
+    definition.artifacts.find(artifact =>
+      artifact.sourceId === `${process.env.PROJECT_ID}:${buildId}`
+    )
+  );
+};
+
 export const organizeIntoEnvironmentBuckets = (records) => {
   const buckets = {};
   records.forEach(record => {
@@ -63,6 +71,8 @@ export const statusForRelease = (record) => {
   } else if(record.status === 'succeeded') {
     return 'success';
   } else if(record.status === 'failed') {
+    return 'failure';
+  } else if(record.status === 'rejected') {
     return 'failure';
   } else {
     return 'unknown';

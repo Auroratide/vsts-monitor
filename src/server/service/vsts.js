@@ -42,11 +42,23 @@ const getBuildTimeline = (id) => {
   }).then(res => res.data);
 };
 
-const getMostRecentReleases = () => {
+const getReleaseDefinitions = () => {
+  return releases.get(`/${process.env.PROJECT_ID}/_apis/release/definitions`, {
+    params: {
+      'api-version': '4.0-preview.3',
+      '$expand': 'artifacts'
+    },
+    headers: {
+      Authorization: `Basic ${getAuthorization()}`
+    }
+  }).then(res => res.data);
+};
+
+const getMostRecentReleases = (releaseId) => {
   return releases.get(`/${process.env.PROJECT_ID}/_apis/release/releases`, {
     params: {
       'api-version': '4.0-preview.4',
-      'definitionId': '4',
+      'definitionId': releaseId.toString(),
       '$top': 25,
       '$expand': 'environments'
     },
@@ -60,5 +72,6 @@ export default {
   getMostRecentBuild,
   getMostRecentCompletedBuild,
   getBuildTimeline,
+  getReleaseDefinitions,
   getMostRecentReleases
 };

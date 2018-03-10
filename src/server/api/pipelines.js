@@ -5,6 +5,7 @@ import {
   buildStatus,
   sortByOrder,
   keepOnlyTasks,
+  getReleaseDefinitionWithBuildId,
   organizeIntoEnvironmentBuckets,
   findFirstNotInProgress,
   orderByRank,
@@ -56,7 +57,10 @@ router.get('/:id', (req, res) => {
       });
     })
 
-    .then(() => vsts.getMostRecentReleases().then(d => d.value))
+    .then(() => vsts.getReleaseDefinitions())
+    .then(releaseResponse => releaseResponse.value)
+    .then(definitions => getReleaseDefinitionWithBuildId(definitions, req.params.id))
+    .then(releaseDefinition => vsts.getMostRecentReleases(releaseDefinition.id).then(d => d.value))
     .then(organizeIntoEnvironmentBuckets)
     .then(buckets => {
       return Object.keys(buckets).map(env => findFirstNotInProgress(buckets[env]));
@@ -69,7 +73,18 @@ router.get('/:id', (req, res) => {
           status: statusForRelease(env)
         };
       }));
+
+      return envs;
     })
+    .then(envs => {
+      const envsAreGood = envs.reduce((val, env) => {
+        return val && statusForRelease(env) !== 'failure';
+      }, true);
+
+      if(!envsAreGood)
+        response.status = 'failure';
+    })
+
     .then(() => {
       return res.status(200).json(response);
     });
