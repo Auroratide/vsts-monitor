@@ -7,7 +7,7 @@ import {
   keepOnlyTasks,
   getReleaseDefinitionWithBuildId,
   organizeIntoEnvironmentBuckets,
-  findFirstNotInProgress,
+  findFirstReleaseStarted,
   orderByRank,
   statusForRelease
 } from '../transformers/pipelines';
@@ -63,7 +63,7 @@ router.get('/:id', (req, res) => {
     .then(releaseDefinition => vsts.getMostRecentReleases(releaseDefinition.id).then(d => d.value))
     .then(organizeIntoEnvironmentBuckets)
     .then(buckets => {
-      return Object.keys(buckets).map(env => findFirstNotInProgress(buckets[env]));
+      return Object.keys(buckets).map(env => findFirstReleaseStarted(buckets[env]));
     })
     .then(orderByRank)
     .then(envs => {

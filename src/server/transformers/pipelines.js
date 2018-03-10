@@ -46,17 +46,20 @@ export const organizeIntoEnvironmentBuckets = (records) => {
   const buckets = {};
   records.forEach(record => {
     record.environments.forEach(env => {
-      if(!buckets[env])
-        buckets[env] = [];
-      buckets[env].push(env);
+      if(!buckets[env.name])
+        buckets[env.name] = [];
+      buckets[env.name].push(env);
     });
   });
 
   return buckets;
 };
 
-export const findFirstNotInProgress = (envs) => {
-  return envs.find(env => env.status != 'inProgress');
+export const findFirstReleaseStarted = (envs) => {
+  return envs.find(env =>
+    (env.status !== 'notStarted') &&
+    (env.deploySteps.some(step => step.hasStarted))
+  );
 };
 
 export const orderByRank = (envs) => {
