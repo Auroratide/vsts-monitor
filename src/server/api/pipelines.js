@@ -28,6 +28,7 @@ router.get('/:id', (req, res) => {
   console.log('** Hit API GET /pipelines');
 
   const response = {};
+  response.stages = [];
   return vsts.getMostRecentBuild(req.params.id)
     .then(data => {
       const build = data.value[0];
@@ -49,12 +50,15 @@ router.get('/:id', (req, res) => {
     .then(keepOnlyTasks)
     .then(sortByOrder)
     .then(records => {
-      response.stages = records.map(record => {
+      response.stages = response.stages.concat(records.map(record => {
         return {
           name: record.name,
           status: statusFor(record)
         };
-      });
+      }));
+    })
+    .catch(error => {
+      console.error(error);
     })
 
     .then(() => vsts.getReleaseDefinitions())
@@ -83,6 +87,9 @@ router.get('/:id', (req, res) => {
 
       if(!envsAreGood)
         response.status = 'failure';
+    })
+    .catch(error => {
+      console.error(error);
     })
 
     .then(() => {
