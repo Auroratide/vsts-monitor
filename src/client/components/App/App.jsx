@@ -3,11 +3,10 @@ import Pipeline from '../Pipeline';
 import Login from '../Login';
 
 import './style';
+import Projects from '../Projects';
 
 const App = () => <Login>
-  <Pipeline definitionId='1645' />
-  <Pipeline definitionId='1648' />
-  <Pipeline definitionId='2013' />
+  <Projects/>
 </Login>;
 
 export default App;

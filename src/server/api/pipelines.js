@@ -24,26 +24,26 @@ const router = Router();
   } ]
 }
  */
-router.get('/:id', (req, res) => {
+router.get('/:projectid/:id', (req, res) => {
   console.log('** Hit API GET /pipelines');
 
   const response = {};
   response.stages = [];
-  return vsts.getMostRecentBuild(req.params.id)
+  return vsts.getMostRecentBuild(req.params.projectid,req.params.id)
     .then(data => {
       const build = data.value[0];
       response.name = build.definition.name;
 
       if(build.status !== 'completed') {
-        return vsts.getMostRecentCompletedBuild(req.params.id).then(d => {
+        return vsts.getMostRecentCompletedBuild(req.params.projectid,req.params.id).then(d => {
           response.status = buildStatus(d.value[0]);
-          return vsts.getBuildTimeline(build.id);
+          return vsts.getBuildTimeline(req.params.projectid,build.id);
         }).catch(() => {
           response.status = 'failure';
         });
       } else {
         response.status = buildStatus(build);
-        return vsts.getBuildTimeline(build.id);
+        return vsts.getBuildTimeline(req.params.projectid,build.id);
       }
     })
     .then(data => data.records)
@@ -61,10 +61,10 @@ router.get('/:id', (req, res) => {
       console.error(error);
     })
 
-    .then(() => vsts.getReleaseDefinitions())
+    .then(() => vsts.getReleaseDefinitions(req.params.projectid))
     .then(releaseResponse => releaseResponse.value)
-    .then(definitions => getReleaseDefinitionWithBuildId(definitions, req.params.id))
-    .then(releaseDefinition => vsts.getMostRecentReleases(releaseDefinition.id).then(d => d.value))
+    .then(definitions => getReleaseDefinitionWithBuildId(definitions, req.params.projectid, req.params.id))
+    .then(releaseDefinition => vsts.getMostRecentReleases(req.params.projectid, releaseDefinition.id).then(d => d.value))
     .then(organizeIntoEnvironmentBuckets)
     .then(buckets => {
       return Object.keys(buckets).map(env => findFirstReleaseStarted(buckets[env]));
