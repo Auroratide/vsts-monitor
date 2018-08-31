@@ -9,8 +9,8 @@ const releases = http.create({
   baseURL: 'https://mrcooper.vsrm.visualstudio.com/'
 });
 
-const getMostRecentBuild = (id) => {
-  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
+const getMostRecentBuild = (projectid, id) => {
+  return builds.get(`/${projectid}/_apis/build/builds`, {
     params: {
       definitions: id,
       '$top': 1
@@ -21,8 +21,8 @@ const getMostRecentBuild = (id) => {
   }).then(res => res.data);
 };
 
-const getMostRecentCompletedBuild = (id) => {
-  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds`, {
+const getMostRecentCompletedBuild = (projectid, id) => {
+  return builds.get(`/${projectid}/_apis/build/builds`, {
     params: {
       definitions: id,
       statusFilter: 'completed',
@@ -34,18 +34,18 @@ const getMostRecentCompletedBuild = (id) => {
   }).then(res => res.data);
 };
 
-const getBuildTimeline = (id) => {
-  return builds.get(`/${process.env.PROJECT_ID}/_apis/build/builds/${id}/timeline`, {
+const getBuildTimeline = (projectid, id) => {
+  return builds.get(`/${projectid}/_apis/build/builds/${id}/timeline`, {
     headers: {
       Authorization: `Basic ${getAuthorization()}`
     }
   }).then(res => res.data);
 };
 
-const getReleaseDefinitions = () => {
-  return releases.get(`/${process.env.PROJECT_ID}/_apis/release/definitions`, {
+const getReleaseDefinitions = (projectid) => {
+  return releases.get(`/${projectid}/_apis/release/definitions`, {
     params: {
-      'api-version': '4.0-preview.3',
+      'api-version': '4.1',
       '$expand': 'artifacts'
     },
     headers: {
@@ -54,13 +54,13 @@ const getReleaseDefinitions = () => {
   }).then(res => res.data);
 };
 
-const getMostRecentReleases = (releaseId) => {
-  return releases.get(`/${process.env.PROJECT_ID}/_apis/release/releases`, {
+const getMostRecentReleases = (projectid, releaseId) => {
+  return releases.get(`/${projectid}/_apis/release/releases`, {
     params: {
-      'api-version': '4.0-preview.4',
       'definitionId': releaseId.toString(),
       '$top': 25,
-      '$expand': 'environments'
+      '$expand': 'environments',
+      'api-version': '4.1'
     },
     headers: {
       Authorization: `Basic ${getAuthorization()}`
@@ -68,10 +68,28 @@ const getMostRecentReleases = (releaseId) => {
   }).then(res => res.data);
 };
 
+const getProjects = () => {
+  return builds.request('/_apis/projects', {
+    headers: {
+      Authorization: `Basic ${getAuthorization()}`
+    }
+  }).then(res => res.data);
+}
+
+const getDefinitions = projectId =>{
+  return builds.get(`${projectId}/_apis/build/definitions`, {
+    headers: {
+      Authorization: `Basic ${getAuthorization()}`
+    }
+  }).then(res => res.data);
+}
+
 export default {
   getMostRecentBuild,
   getMostRecentCompletedBuild,
   getBuildTimeline,
   getReleaseDefinitions,
-  getMostRecentReleases
+  getMostRecentReleases,
+  getProjects,
+  getDefinitions
 };

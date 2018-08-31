@@ -19,7 +19,7 @@ export default class Pipeline extends React.Component {
   }
 
   refreshPipelineProgress() {
-    pipelines.get(this.props.definitionId).then(data => {
+    pipelines.get(this.props.projectId, this.props.definitionId).then(data => {
       this.setState({
         name: data.name,
         status: data.status,
@@ -56,5 +56,6 @@ export default class Pipeline extends React.Component {
 }
 
 Pipeline.propTypes = {
-  definitionId: PropTypes.string
+  definitionId: PropTypes.string,
+  projectId: PropTypes.string
 };

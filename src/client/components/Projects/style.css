@@ -1,0 +1,42 @@
+
+.projects {
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.projects div {
+    padding: 10px;
+    border: 3px solid #49800e;
+    margin: 3px;
+}
+
+.definitions {
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.button {
+    border: none;
+    padding: 8px 21px;
+    margin: 5px 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.green {
+    color: white;
+    background-color: #4CAF50; 
+}
+
+.purple {
+    color: #cec0c0;
+    background-color: #584080;
+}
+
+.hide {
+    display: none
+}

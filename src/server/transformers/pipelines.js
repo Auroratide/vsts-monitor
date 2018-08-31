@@ -34,10 +34,10 @@ export const keepOnlyTasks = (records) => {
   return records.filter(record => record.type === 'Task');
 };
 
-export const getReleaseDefinitionWithBuildId = (definitions, buildId) => {
+export const getReleaseDefinitionWithBuildId = (definitions, projectId, buildId) => {
   return definitions.find(definition =>
     definition.artifacts.find(artifact =>
-      artifact.sourceId === `${process.env.PROJECT_ID}:${buildId}`
+      artifact.sourceId === `${projectId}:${buildId}`
     )
   );
 };
